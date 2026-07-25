@@ -21,6 +21,18 @@ struct LogisticsNode {
 };
 #pragma pack(pop)
 
+#pragma pack(push, 1)
+/**
+ * Packed Directional Link Edge Structure
+ * Size: Exactly 12 bytes, mapping directional supply channels between vertex indices.
+ */
+struct LogisticsEdge {
+    uint32_t source_node_id;       // 32-bit tracking key of starting resource node
+    uint32_t destination_node_id;  // 32-bit tracking key of ending destination node
+    float    distance_weight;      // 32-bit floating point geographic distance path weight
+};
+#pragma pack(pop)
+
 class ResourceGridRouter {
 public:
     ResourceGridRouter();
@@ -32,13 +44,24 @@ public:
     bool deserialize_grid_from_disk(const std::string& host_path);
     void display_cached_grid() const;
 
+    // 🚀 Milestone 2 Core Primitives (Bare-Metal Dijkstra Flow Optimizer)
+    bool add_edge_link(uint32_t src_id, uint32_t dest_id, float weight);
+    bool optimize_supply_route(uint32_t source_id, uint32_t dest_id, std::vector<uint32_t>& out_route_path);
+    void display_optimized_route(const std::vector<uint32_t>& route_path) const;
+
     // State Tracking Getters
     size_t get_cached_node_count() const { return node_table_.size(); }
     const std::vector<LogisticsNode>& get_node_table() const { return node_table_; }
+    size_t get_cached_edge_count() const { return edge_table_.size(); }
 
 private:
     std::vector<LogisticsNode> node_table_; // In-memory database matrix array cache
+    std::vector<LogisticsEdge> edge_table_; // In-memory topology link connectivity cache
+
+    // Internal path solver help subroutines
+    int32_t find_node_index_by_id(uint32_t id) const;
 };
+
 
 } // namespace Poseidon
 
