@@ -21,7 +21,7 @@ POSEIDON is designed to manage emergency micro-grid fluidics and resource distri
 
 ### 1. Clone the Complete Workspace Repository
 ```bash
-git clone https://github.com
+git clone https://github.com/alistairfontaine/POSEIDON
 cd POSEIDON
 ```
 
