@@ -1,0 +1,13 @@
+# Compilation binary targets
+poseidon-vfs
+build/
+*.o
+*.out
+
+# Sovereign fluid logistics container format extensions
+*.poseidon
+
+# Transient system logs and temporary swap files
+.DS_Store
+*.swp
+*.log
